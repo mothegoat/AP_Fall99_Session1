@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -91,6 +93,7 @@ public class Regex {
                 "<div><a href=\"http://yun.ir/jol8ea\" target=\"_blank\" rel=\"nofollow\"> <img class=\"img-responsive center-block Tabligh\" id=\"d3-Avang\" src=\"https://cdn01.zoomit.ir/2020/7/2a07f19b-8147-4c30-82b8-6a9abdd31a82.gif\"></a></div></div></div><div class=\"banner-wrapper\"><span style=\"display:none\" data-bind=\"text:id\">491</span><div data-bind=\"html: displayBody \" class=\"banner\" data-banner=\"\"><!--noEditor-->\n" +
                 "<div><a href=\"https://fourteamit.com/minipc-hatron/?utm_source=zoomit&amp;utm_medium=banner&amp;utm_campaign=sum99&amp;utm_content=minipc&amp;utm_term=d3\" target=\"_blank\" rel=\"nofollow\"><img class=\"img-responsive Tabligh\" id=\"D3-Hatron\" src=\"https://cdn01.zoomit.ir/2020/8/banner-hatron-300x250.gif\" alt=\"\"></a></div></div></div><div class=\"banner-wrapper\"><span style=\"display:none\" data-bind=\"text:id\">426</span><div data-bind=\"html: displayBody \" class=\"banner\" data-banner=\"\"><!--noEditor-->\n";
 
+        //Search for paragraphs in HTML
         String patternString = "(<p>)(.+)(</p>)";
         Pattern pattern = Pattern.compile(patternString);
         Matcher matcher = pattern.matcher(text);
@@ -99,13 +102,22 @@ public class Regex {
             System.out.println(matcher.group(2));
         }
 
+        //Search for links with .com domain
         String patternStringOne = "(https://.*\\.com)";
         Pattern patternOne = Pattern.compile(patternStringOne);
         Matcher matcherOne = patternOne.matcher(text);
 
+        HashMap<String, Integer> linksCount = new HashMap<>();
         while (matcherOne.find()){
             String link = matcherOne.group(1);
-
+            if(linksCount.containsKey(link)){
+                linksCount.put(link,linksCount.get(link) + 1);
+            }else{
+                linksCount.put(link,1);
+            }
+        }
+        for (String link : linksCount.keySet()) {
+            System.out.println(link + " : " + linksCount.get(link));
         }
 
     }
